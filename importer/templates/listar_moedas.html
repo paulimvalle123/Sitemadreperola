@@ -1,0 +1,54 @@
+{% extends 'sidebar.html' %}
+{% block conteudo %}
+
+{% if user.username == 'admin' %}
+
+<head>
+    <title>Listar Moedas</title>
+</head>
+
+<body>
+    <div style="padding-left: 100px; padding-top: 50px;">
+
+        <div class="card text-bg-light" style="width: 750px; padding-bottom: 10px;  border-color: #f8f9fa; ">
+            <h2 style="text-align: center;">Lista de Moedas</h2>
+            <!-- Tabela para listar as moedas cadastradas -->
+            <form method="post" action="{% url 'limpar_moedas' %}">
+                {% csrf_token %}
+                <div class="container"
+                    style="padding-left: 0px; padding-right: 0px; width: 720px;  border: 0px solid #f8f9fa;  max-height: 650px; overflow-y: auto;">
+                    <table style="width: 700px; " class="table table-bordered table-striped">
+                        <!-- Cabeçalho da tabela -->
+                        <thead>
+                            <tr>
+                                <th style="padding-top: 0px; padding-bottom: 0px;">Selecionar</th>
+                                <th style="padding-top: 0px; padding-bottom: 0px;">Moeda</th>
+                                <th style="padding-top: 0px; padding-bottom: 0px;">Valor</th>                                
+                                <th style="padding-top: 0px; padding-bottom: 0px;">AÇÃO</th>
+                            </tr>
+                        </thead>
+                        <!-- Corpo da tabela -->
+                        <tbody>
+                            {% for moeda in moedas %}
+                            <tr>
+                                <td style="padding-top: 0px; padding-bottom: 0px;"><input type="checkbox"
+                                        name="selecionar" value="{{ moeda.id }}"></td>
+                                <td style="padding-top: 0px; padding-bottom: 0px;">{{ moeda.MOEDA }}</td>
+                                <td style="padding-top: 0px; padding-bottom: 0px;">{{ moeda.VALOR }}</td>
+                                <td><a href="{% url 'editar_moeda' moeda.id %}" class="py-0 btn btn-dark">Editar</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div style="padding-top: 15px; padding-left: 15px;">
+                    <button class="btn btn-dark" type="submit">Excluir Moedas Selecionadas</button>
+                </div>
+            </form>
+
+        </div>
+
+</body>
+
+{% endif %}
+{% endblock %}

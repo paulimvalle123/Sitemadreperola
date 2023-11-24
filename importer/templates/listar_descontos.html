@@ -1,0 +1,56 @@
+{% extends 'sidebar.html' %}
+{% block conteudo %}
+
+{% if user.username == 'admin' %}
+
+<head>
+    <title>Listar Descontos</title>
+</head>
+
+<body>
+    <div style="padding-left: 100px; padding-top: 50px;">
+        <div class="card text-bg-light" style="width: 750px; padding-bottom: 10px;  border-color: #f8f9fa; ">
+            <h2 style="text-align: center;">Lista de Descontos</h2>
+            <!-- Tabela para listar os descontos cadastrados -->
+            <form method="post" action="{% url 'limpar_descontos' %}">
+                {% csrf_token %}
+                <div class="container"
+                    style="padding-left: 0px; padding-right: 0px; width: 720px;  border: 0px solid #f8f9fa;  max-height: 650px; overflow-y: auto;">
+                    <table style="width: 700px; " class="table table-bordered table-striped">
+                        <!-- Cabeçalho da tabela -->
+                        <thead>
+                            <tr>
+                                <th style="padding-top: 0px; padding-bottom: 0px;">Selecionar</th>
+                                <th style="padding-top: 0px; padding-bottom: 0px;">Data Inicial</th>
+                                <th style="padding-top: 0px; padding-bottom: 0px;">Data Final</th>
+                                <th style="padding-top: 0px; padding-bottom: 0px;">Valor do Desconto</th>
+                                <th style="padding-top: 0px; padding-bottom: 0px;">Observação</th>
+                                <th style="padding-top: 0px; padding-bottom: 0px;">Usuário</th>
+                            </tr>
+                        </thead>
+                        <!-- Corpo da tabela -->
+                        <tbody>
+                            {% for desconto in descontos %}
+                            <tr>
+                                <td style="padding-top: 0px; padding-bottom: 0px;">
+                                    <input type="checkbox" name="selecionar" value="{{ desconto.id }}">
+                                <td style="padding-top: 0px; padding-bottom: 0px;">{{ desconto.data_inicial|date:"d/m/Y" }}</td>
+                                <td style="padding-top: 0px; padding-bottom: 0px;">{{ desconto.data_final|date:"d/m/Y" }}</td>
+                                <td style="padding-top: 0px; padding-bottom: 0px;">R${{ desconto.valor }}</td>
+                                <td style="padding-top: 0px; padding-bottom: 0px;">{{ desconto.observacao }}</td>
+                                <td style="padding-top: 0px; padding-bottom: 0px;">{{ desconto.usuario.first_name }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div style="padding-top: 15px; padding-left: 15px;">
+                    <button class="btn btn-dark" type="submit">Excluir Descontos Selecionados</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+{% endif %}
+{% endblock %}

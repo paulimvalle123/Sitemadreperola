@@ -1,0 +1,258 @@
+{% extends 'sidebar.html' %}
+
+
+
+
+
+{% block filtro %}
+<form method="post" class="d-flex justify-content-between"  >
+    {% csrf_token %}
+    {% if user.username == 'admin' %}
+    <select class=" btn btn-light" name="usuario_selecionado" style=" width: 100px; height: 50px;" >
+        {% for usuario in usuarios_dropdown %}
+        <option  value="{{ usuario.id }}" {% if usuario == usuario_selecionado %}selected{% endif %}  >
+            {{ usuario.first_name }}
+        </option>
+        {% endfor %}
+    </select>
+    {% endif %}
+
+    <div class="form-group" style="padding-left: 30px; padding-right: 30px;   " >
+        <label for="{{ form.data_inicial.id_for_label }}">Data Inicial:</label>
+        <input type="date" class="form-control" id="{{ form.data_inicial.id_for_label }}"
+            name="data_inicial" value="{{ form.data_inicial.value|default_if_none:'' }}">
+        <span class="error">{{ form.data_inicial.errors }}</span>
+    </div>
+
+    <div class="form-group" style="padding-right: 30px; ">
+        <label for="{{ form.data_final.id_for_label }}">Data Final:</label>
+        <input  type="date" class="form-control" id="{{ form.data_final.id_for_label }}"
+            name="data_final" value="{{ form.data_final.value|default_if_none:'' }}">
+        <span class="error">{{ form.data_final.errors }}</span>
+    </div>
+
+    <button style=" width: 100px; height: 40px;" class=" btn btn-light" type="submit">Filtrar</button>
+</form>
+{% endblock %}
+
+
+
+
+
+
+{% block conteudo %}
+
+{% load static %}
+<div style="width: 760px; align-items: center; padding-right: 00px; padding-top: 0px; border-color: #f8f9fa;"
+    class="card text-bg-light">
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <div class="container" style="padding-left: 0px;">
+        <div class="row">
+            <div class="col-6">
+
+                <div style="width: 750px;" class="container">
+                    <div class="image-text-container">
+                        <img src='{% static "madre2.png" %}' width="240" height="120" alt="Logo da Empresa">
+                        <div class="text" style="padding-left: 100px;">
+                            <p>Razão social: Editora Madrepérola LTDA</p>
+                            <p>CNPJ: 22.769.449/0001-51</p>
+                            <p>IE: 9084201011</p>
+                            <p>Endereço: Av. São João, 2725, sala 240B,</p>
+                            <p>JD. Antares, Londrina - PR, CEP 86036-030</p>
+
+
+
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div style="text-justify: distribute; width: 750px;" class="container">
+                    <table s class=" table table-bordered table-striped mb-0">
+                        <th style=" text-align:justify;  padding: 0cm;">
+
+
+                            <div class="row">
+                                <div style="padding-left: 25px; width: 420px;" class="col-md-10 text-left">
+                                    {{ usuario_selecionado.first_name }}
+                                </div>
+                                <div class="col-md-2 text-center" style=" width: 150px;">
+                                    {{ data_inicial|date:"d/m/Y" }} 
+                                    
+                                </div>
+                                <div class="col-md-2 text-center" style=" width: 20px;">
+                                     a 
+                                    
+                                </div>
+                                <div class="col-md-2 text-center"  style="width: 150px;">
+                                    {{ data_final|date:"d/m/Y" }}
+                                </div>
+                            </div>
+
+
+
+                        </th>
+
+                    </table>
+                </div>
+                <div style="width: 750px;" class="container">
+                    <div class="container"
+                        style="padding: 0px; border: 0px solid #f8f9fa; width: auto; max-height: 600px; overflow-y: auto; padding-top: 0px;">
+
+                        <table class="table table-bordered table-striped mb-0">
+                            <!-- Cabeçalho da tabela -->
+                            <thead>
+
+                                <tr>
+                                    <th style="width: 15%;  padding: 0cm;" class="text-center">
+                                        MODELO
+                                    </th>
+                                    <th style="width: 13%;  padding: 0cm;" class="text-center">SKU
+                                    </th>
+                                    <th style="width: 17%;  padding: 0cm;" class="text-center">
+                                        QUANTIDADE</th>
+                                    <th style="width: 8%;  padding: 0cm;" class="text-center">
+                                        DA</th>
+                                    <th style="width: 14%;  padding: 0cm;" class="text-center">R$
+                                        MÉDIO</th>
+                                    <th style="width: 17%;  padding: 0cm;" class="text-center">R$
+                                        POR LIVRO</th>
+                                    <th style="width: 17%;  padding: 0cm;" class="text-center">R$
+                                        TOTAL DA</th>
+                                </tr>
+                            </thead>
+
+                            <!-- Corpo da tabela -->
+                            <tbody>
+                                {% if produtos_fisicos %}
+
+
+                                <td style="width: 115px; height: 5cm; background-color: #918b8e;"
+                                    class="text-center centralizado-verticalmente"
+                                    rowspan="{{ produtos_fisicos|length|add:1 }}">FISICA</td>
+                                {% for produto, quantidade_vendida, medio, da_medio, total_da in produtos_fisicos %}
+                                <tr>
+                                    <td style="height: 1cm; " class="text-center">{{produto.sku}}
+                                    </td>
+                                    <td style="height: 1cm;" class="text-center">{{ quantidade_vendida }}</td>
+                                    <td style="height: 1cm;" class="text-center">{{ da }}%</td>
+                                    <td style="height: 1cm;" class="text-center">{{ medio }}</td>
+                                    <td style="height: 1cm;" class="text-center">{{ da_medio }}</td>
+                                    <td style="height: 1cm;" class="text-center">{{ total_da }}</td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+
+
+                                {% if produtos_digitais %}
+
+                                <td style="width: 115px; height: 5cm; background-color: #918b8e;"
+                                    class="text-center centralizado-verticalmente"
+                                    rowspan="{{ produtos_digitais|length|add:1 }}">DIGITAL</td>
+                                {% for produto, quantidade_vendida, medio, da_medio, total_da in produtos_digitais %}
+                                <tr>
+                                    <td style="height: 1cm;" class="text-center">{{produto.sku }}</td>
+                                    <td style="height: 1cm;" class="text-center">{{ quantidade_vendida }}</td>
+                                    <td style="height: 1cm;" class="text-center">{{ da }}%</td>
+                                    <td style="height: 1cm;" class="text-center">{{ medio }}</td>
+                                    <td style="height: 1cm;" class="text-center">{{ da_medio }}</td>
+                                    <td style="height: 1cm;" class="text-center">{{ total_da }}</td>
+
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+
+                    </div>
+                    </table>
+
+
+
+
+                    <table style="justify-content: start;" class="table table-bordered table-striped mb-0">
+                        <!-- Cabeçalho da tabela -->
+
+                        <tr>
+                            <th style=" padding-top: 0cm; padding-bottom: 0cm;  padding-left: 5px;"> TOTAL BRUTO DA
+                            </th>
+                            <th style="  width: 100px;   padding-top: 0cm; padding-bottom: 0cm;  padding-left: 5px;">
+                                R${{total_da_geral}}</th>
+                        </tr>
+                        <tr>
+                            <th style="padding-top: 0cm; padding-bottom: 0cm;  padding-left: 5px;"> DESCONTOS</th>
+                            <th style=" width: 80px;  padding-top: 0cm; padding-bottom: 0cm;  padding-left: 5px;">
+                                R${{descontos}}
+                            </th>
+                        </tr>
+                        <tr>
+                            <th style="   padding-top: 0cm; padding-bottom: 0cm;  padding-left: 5px;"> DA A RECEBER</th>
+                            <th style="  width: 80px;    padding-top: 0cm; padding-bottom: 0cm;  padding-left: 5px;">
+                                R${{da_receber}}</th>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+            <div style="text-justify: distribute; width: 750px; padding-top: 10px;" class="container">
+                <table class=" table table-bordered table-striped mb-0">
+                    <tr>
+                        <th style=" text-align:justify;  padding: 0cm;">
+                            <div style="text-align: center;">
+                                Recibo
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style=" text-align:justify;  padding: 0cm;">
+
+                            Editora Madrepérola LTDA vem por meio desta efetuar o pagamento dos direitos autorais,
+                            conforme contrato de edição, no valor de: R${{da_receber}}.</p>
+                            <div style="text-align: left; padding-bottom: 5px;" class="mb-0"> Pagamento este à vista, à
+                                seguinte autoria:</div>
+                            <div style="text-align: left;  padding-bottom: 5px;" class="mb-0"></div> Nome: {{usuario_selecionado.first_name }}         </div>
+            <div style="text-align: left;  padding-bottom: 5px;" class="mb-0"> Dados: {{ usuario_selecionado.last_name }}        </div>
+            <div style="padding-left: 250px;">
+            <img  src='{% static "assinatura.png" %}' width="200" height="120" alt="Logo da Empresa"></div>
+            
+
+
+
+        </th>
+        </tr>
+        <th style=" text-align:justify;  padding: 0cm;">
+            <div style="text-align: center;">
+
+            </div>
+        </th>
+        </tr>
+
+        </table>
+    </div>
+    <div style="padding-bottom: 15px; padding-left: 15px; padding-top: 10px;" class="d-flex">
+        <div class="container">
+            <a href="{% url 'gerar_pdf_produtos_vendidos' usuario_selecionado=usuario_selecionado.id %}?data_inicial={{ data_inicial|date:'Y-m-d' }}&data_final={{ data_final|date:'Y-m-d' }}" class="btn btn-dark">Gerar PDF</a>
+
+        </div>
+        {% if user.username == 'admin' %}
+        <div>
+            <a href="{% url 'consolidado' %}" style="color: #292929; padding-right: 15px;" class=" nav-link rounded-0"
+                data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Orders" data-bs-original-title="Orders">
+                <svg class="bi pe-none" width="40" height="40" role="img" aria-label="Orders">
+                    <use xlink:href="#table"></use>
+                </svg>
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+
+</div>
+</div>
+
+{% endblock %}

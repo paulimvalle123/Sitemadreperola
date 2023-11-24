@@ -1,0 +1,68 @@
+/* styles.css */
+
+.espaco-entre-componentes {
+    margin-top: 100px;
+    /* Ajuste o valor conforme necessário */
+}
+
+.centralizado-verticalmente {
+    vertical-align: middle;
+}
+
+.d-inline-block {
+    margin-right: 0;
+}
+
+.image-text-container {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}
+
+.image-text-container img {
+    max-width: 800px;
+    /* Defina o tamanho desejado para a imagem */
+    margin-right: 20px;
+    /* Espaçamento entre a imagem e o texto */
+}
+
+.image-text-container .text {
+    flex: 1;
+    /* Permite que o texto ocupe o espaço restante ao lado da imagem */
+}
+
+.text {
+    line-height: 0.2;
+    /* Ajuste o valor conforme necessário */
+}
+
+
+
+/* Estilo para a tabela */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Estilo para as células da tabela */
+.table td,
+.table th {
+    border: 1px solid #000000;
+    padding: 8px;
+}
+
+/* Estilo para a primeira célula de cada linha (coluna TIPO) */
+
+
+/* Estilo para células das colunas SKU e QUANTIDADE */
+.table td:nth-child(2),
+.table td:nth-child(3) {
+    background-color: #ffffff;
+}
+
+/* Estilo para células das colunas PRECO e MEDIO */
+.table td:nth-child(4),
+.table td:nth-child(5) {
+    background-color: #ffffff;
+}
+

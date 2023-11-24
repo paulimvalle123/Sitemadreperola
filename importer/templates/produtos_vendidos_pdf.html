@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" data-bs-theme="light">
+
+<head>
+
+    <meta charset="utf-8">
+    <title>Produtos Vendidos</title>
+    <style>
+        th,
+        td {
+            border: 1px solid rgb(0, 0, 0);
+            padding: 8px;
+            text-align: center;
+            
+        }
+
+        th {
+            background-color: rgb(255, 255, 255);
+            
+        }
+    </style>
+</head>
+
+<body>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
+
+    <div class="container" style=" width: 350px; padding-left: 0px;">
+        <table style=" padding-bottom: 10px; background-color: #ffffff; border-color: #ffffff;  " class=" table  mb-2">
+            <th style="border-color: #ffffff;">
+                <div class="image-text-container">
+                    <img src="data:image/jpg;base64,{{ imagem_base64 }}" width="250" height="100">
+                </div>
+            </th>
+            <th style="border-color: #ffffff;">
+                <div class="text" style="padding: 0px ;">
+                    <p>Razão social: Editora Madrepérola LTDA</p>
+                    <p>CNPJ: 22.769.449/0001-51</p>
+                    <p>IE: 9084201011</p>
+                    <p>Endereço: Av. São João, 2725, sala 240B,</p>
+                    <p>JD. Antares, Londrina - PR, CEP 86036-030</p>
+                </div>
+            </th>
+        </table>
+    </div>
+
+
+
+    <div style=" padding-top: 10px; width: 950px;" class="container ">
+        <table style=" height: auto; font-size: 15px; background-color: #c4c4c4;  " class=" table  mb-0">
+            <th
+                style="border-color:#c4c4c4 ; text-align:end ; background-color: #c4c4c4; padding-bottom: 0px; padding-top: 5px; color: #000000;">
+
+                {{ usuario_selecionado_nome.first_name }}
+
+
+
+            </th>
+            <th style=" width: 600px; border-color:#c4c4c4 ; text-align:end ; background-color: #c4c4c4; padding-left: 130px; padding-bottom: 0px; padding-top: 5px; color: #000000;">
+
+
+                {{ data_inicial|date:"d/m/Y" }} a {{ data_final|date:"d/m/Y" }}
+
+
+
+            </th>
+
+        </table>
+    </div>
+
+
+    <div style="width: 350px;" class="container">
+        <table style=" font-size: 13px; " class="table mb-0">
+            <!-- Cabeçalho da tabela -->
+            <thead>
+
+                <tr>
+                    <th style="  width: 10%; color: #000000; background-color: #ffffff; padding-bottom: 0px; padding-top: 5px; height: auto;"
+                        class="text-center">
+                        MODELO
+                    </th>
+                    <th style="width: 13%; color: #000000; background-color: #ffffff;padding-bottom: 0px; padding-top: 5px; height: auto;"
+                        class="text-center">SKU
+                    </th>
+                    <th style="width: 16%; color: #000000; background-color: #ffffff; padding-bottom: 0px; padding-top: 5px; height: auto;"
+                        class="text-center">
+                        QUANTIDADE</th>
+                    <th style="width: 8%; color: #000000; background-color: #ffffff; padding-bottom: 0px; padding-top: 5px; height: auto;"
+                        class="text-center">
+                        DA</th>
+                    <th style="width: 15%; color: #000000; background-color: #ffffff; padding-bottom: 0px; padding-top: 5px; height: auto;"
+                        class="text-center">R$
+                        MÉDIO</th>
+                    <th style="width: 19%; color: #000000; background-color: #ffffff; padding-bottom: 0px; padding-top: 5px; height: auto;"
+                        class="text-center">R$
+                        POR LIVRO</th>
+                    <th style="width: 19%; color: #000000; background-color: #ffffff; padding-bottom: 0px; padding-top: 5px; height: auto;"
+                        class="text-center">R$
+                        TOTAL DA</th>
+                </tr>
+            </thead>
+
+            <!-- Corpo da tabela -->
+            <tbody>
+                {% if produtos_fisicos %}
+
+
+
+                {% for produto, quantidade_vendida, medio, da_medio, total_da in produtos_fisicos %}
+                <tr>
+                    <td style="background-color: #918b8e;"
+                        class="text-center centralizado-verticalmente">FISICA</td>
+                    <td style="height: auto; background-color: #ffffff;" class="text-center">
+                        {{produto.sku}}
+                    </td>
+                    <td style="height: auto;" class="text-center">{{ quantidade_vendida }}</td>
+                    <td style="height: auto;" class="text-center">{{ da }}%</td>
+                    <td style="height: auto;" class="text-center">{{ medio }}</td>
+                    <td style="height: auto;" class="text-center">{{ da_medio }}</td>
+                    <td style="height: auto;" class="text-center">{{ total_da }}</td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+
+
+                {% if produtos_digitais %}
+
+
+                {% for produto, quantidade_vendida, medio, da_medio, total_da in produtos_digitais %}
+                <tr>
+                    <td style="width: 115px; height: auto; background-color: #918b8e;"
+                        class="text-center centralizado-verticalmente">DIGITAL</td>
+                    <td style="height: auto; background-color: #ffffff;" class="text-center">
+                        {{produto.sku }}</td>
+                    <td style="height: auto;" class="text-center">{{ quantidade_vendida }}</td>
+                    <td style="height: auto;" class="text-center">{{ da }}%</td>
+                    <td style="height: auto;" class="text-center">{{ medio }}</td>
+                    <td style="height: auto;" class="text-center">{{ da_medio }}</td>
+                    <td style="height: auto;" class="text-center">{{ total_da }}</td>
+
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+
+
+
+
+        <table style=" font-size: 15px; justify-content: start;" class="table mb-0">
+            <tr>
+                <th
+                    style=" text-align: left; padding-bottom: 0px; padding-top: 5px; height: auto; color: #000000; background-color: #c4c4c4; ">
+                    TOTAL BRUTO DA
+                </th>
+                <th
+                    style=" text-align: left; padding-bottom: 0px; padding-top: 5px; height: auto; color: #000000; width: 150px; background-color: #c4c4c4; ">
+                    R${{total_da_geral}}</th>
+            </tr>
+            <tr>
+                <th
+                    style=" text-align: left; padding-bottom: 0px; padding-top: 5px; height: auto; color: #000000;  background-color: #ffffff; ">
+                    DESCONTOS</th>
+                <th
+                    style=" text-align: left; padding-bottom: 0px; padding-top: 5px; height: auto; color: #000000; width: 150px; background-color: #ffffff; ">
+                    R${{descontos}}
+                </th>
+            </tr>
+            <tr>
+                <th
+                    style=" text-align: left; padding-bottom: 0px; padding-top: 5px; height: auto; color: #000000; background-color: #c4c4c4;">
+                    DA A RECEBER</th>
+                <th
+                    style=" text-align: left; padding-bottom: 0px; padding-top: 5px; height: auto; color: #000000; width: 150px; background-color: #c4c4c4; ">
+                    R${{da_receber}}</th>
+            </tr>
+
+
+
+
+            <div style="font-size: 15px; text-justify: distribute; width: 750px; padding-top: 10px;" class="container">
+                <table class=" table table-bordered table-striped mb-0">
+                    <tr>
+                        <th style=" text-align:justify;  padding: 0cm;">
+                            <div style="padding-top: 10px; font-size: 15px; text-align: center;">
+                                Recibo
+                            </div>
+                        </th>
+                    </tr>
+                    <tr style="padding-top: 10px;">
+                        <th style="padding-top: 10px; font-size: 15px; text-align:justify;  padding: 0cm;">
+
+                        <p style="padding-left: 10px; padding-right: 10px; padding-top: 10px;">Editora Madrepérola LTDA vem por meio desta efetuar o pagamento dos direitos autorais,
+                            conforme contrato de edição, no valor de: R${{da_receber}}.</p>
+                            <div style="padding-left: 10px; text-align: left; padding-bottom: 5px;" class="mb-0"> Pagamento este à vista, à
+                                seguinte autoria:</div>
+                            <div style="padding-left: 10px; padding-top: 10px; text-align: left;  padding-bottom: 5px;" class="mb-0"></div> Nome: {{usuario_selecionado_nome.first_name }}         </div>
+            <div style="padding-left: 10px; text-align: left;  padding-bottom: 5px;" class="mb-0"> Dados: {{ usuario_selecionado_nome.last_name }}        </div>
+            <div style="padding-left: 250px; " class="image-text-container">
+                <img src="data:image/png;base64,{{ imagem_base642 }}" width="200" height="100">
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </table>
+    </div>
+    </div>
+
+
+
+
+</body>
+
+</html>

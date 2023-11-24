@@ -1,0 +1,137 @@
+{% extends 'sidebar.html' %}
+
+{% block conteudo %}
+{% if user.username == 'admin' %}
+
+<head>
+    <title>Importar CSV</title>
+    <script>
+        $(document).ready(function () {
+            $("#marcarTodos").click(function () {
+                $("input[type='checkbox'][name='selecionar']").prop('checked', true);
+            });
+        });
+    </script>
+
+
+    <!-- Código JavaScript para exibir o modal de confirmação -->
+    <script>
+        $(document).ready(function () {
+            $("#btnLimparPlanilhas").click(function () {
+                $("#modalConfirmacao").modal("show");
+            });
+
+            $("#btnConfirmarExclusao").click(function () {
+                $("#modalConfirmacao").modal("hide");
+                $("#formLimparPlanilhas").submit();
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+    <!-- BOTÕES DE ESCOLHER FICHEIRO -->
+    <div class="card text-bg-light" style=" width: 900px; border-color:#f8f9fa ;">
+        <form method="post" enctype="multipart/form-data">
+
+
+            <p style="width: 400px; margin-top: 0px; margin-bottom: 0px;"">PLANILHA AMAZON</p>
+            <input style=" width: 400px;" class="form-control btn btn-dark" type="file" name="csv_file_amazon"
+                accept=".csv"><br>
+            <p style="width: 400px; margin-top: 10px; margin-bottom: 0px;"">PLANILHA BLING</p>
+            <input style=" width: 400px;" class="form-control btn btn-dark" type="file" name="csv_file_bling"
+                accept=".csv"><br>
+            <p style="width: 400px; margin-top: 10px; margin-bottom: 0px;">PLANILHA METABOOK</p>
+            <input style=" width: 400px;" type="file" class="form-control btn btn-dark" name="csv_file_metabook"
+                accept=".csv"><br>
+            <button class="btn btn-dark" style="width: 100px; margin-top: 10px;" type="submit">Importar</button>
+        </form>
+        
+        
+       
+
+
+    </div>
+    <div  class="modal fade" id="modalConfirmacao" tabindex="-1" aria-labelledby="modalConfirmacaoLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalConfirmacaoLabel">Confirmação</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Tem certeza de que deseja excluir as planilhas?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <!-- Submeter o formulário de exclusão ao clicar no botão de confirmar -->
+                    <button type="button" class="btn btn-primary" id="btnConfirmarExclusao">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+
+    {% if erro %}
+    <p>{{ erro }}</p>
+    {% endif %}
+    <div class="card text-bg-light" style="height: 620px;  width: 900px; border-color:#f8f9fa ;">
+
+        <div class="container"
+            style="border: 1px solid  #f8f9fa; width: 725px; max-height: 750px; padding-left: 0px; padding-right:0px ;  padding-top: 10px;">
+            {% if planilha_final %}
+            <h2 style=" width: 700px; text-align:center;">LISTA DE VENDAS</h2>
+            <form method="post" action="{% url 'limpar_planilhas' %}" id="formLimparPlanilhas">
+                {% csrf_token %}
+                
+
+                <button class="btn btn-dark" style="padding-left: 0px; width: 720px;" type="button"
+                    id="btnLimparPlanilhas">Limpar Vendas Selecionadas</button>
+            
+        </div>
+        <div class="container"
+            style="padding-left: 10px; padding-right:0px; border: 1px solid #f8f9fa; width: 725px; height: 530px; overflow-y: auto; padding-top: 10px;">
+            
+            <table style="  width: auto; " class="table table-bordered table-striped">
+                <!-- Cabeçalho da tabela -->
+                <thead>
+                    <tr>
+                        <th style="width: 20px;" > <button id="marcarTodos" class="btn btn-dark" type="button">Todos</button> </th>
+                        <th style="width: 100px;" >PEDIDO</th>
+                        <th style="width: 130px;" >SKU</th>
+                        <th style="width: 60px;" >QTD</th>
+                        <th style="width: 100px;" >PRECO</th>
+                        <th style="width: 180px;" >DATA</th>
+                        <th style="width: 60px;" >MOEDA</th>
+                    </tr>
+                </thead>
+                <!-- Corpo da tabela -->
+                <tbody>
+                    {% for linha in planilha_final %}
+                    <tr>
+                        <td style="padding-top: 0px; padding-bottom: 0px; width: 20px;"><input type="checkbox" name="selecionar" value="{{ linha.id }}"></td>                                               
+                        <td>{{ linha.pedido }}</td>
+                        <td>{{ linha.sku }}</td>
+                        <td>{{ linha.quantidade }}</td>
+                        <td>{{ linha.preco }}</td>
+                        <td>{{ linha.data|date:"d/m/Y H:i" }}</td>
+                        <td>{{ linha.moeda }}</td> 
+
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+           
+        </div>
+    </form>
+        {% endif %}
+    </div>
+
+</body>
+
+{% endif %}
+{% endblock %}

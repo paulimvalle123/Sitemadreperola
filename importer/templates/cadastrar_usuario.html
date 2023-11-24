@@ -1,0 +1,58 @@
+{% extends 'sidebar.html' %}
+
+
+{% block conteudo %}
+{% if user.username == 'admin' %}
+<head>
+    <div style="padding: 150px;">
+        <div class="card text-bg-light" style="padding-bottom: 10px; width: 450px; border-color: #f8f9fa; ">
+            <h2 style="text-align: center;">Cadastro de Usuário</h2>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <main class="form-signin m-auto" style="width: 350px; align-items: center; padding-top: 5px;">
+                <form method="post" action="{% url 'cadastrar_usuario' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="nome">Nome:</label>
+                        <input type="text" class="form-control" id="inome" name="nome" placeholder="Digite o nome">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="text" class="form-control" id="iemail" name="email" placeholder="Digite o email">
+                    </div>
+                    <div class="form-group">
+                        <label for="usuario">Usuário:</label>
+                        <input type="text" class="form-control" id="iusuario" name="usuario"
+                            placeholder="Digite o nome de usuário">
+                    </div>
+                    <div class="form-group">
+                        <label for="senha">Senha:</label>
+                        <input type="password" class="form-control" id="isenha" name="senha" placeholder="Digite a senha">
+                    </div>
+                    <div class="form-group">
+                        <label for="dados">Dados:</label>
+                        <input type="text" class="form-control" id="idados" name="dados" placeholder="Digite os dados">
+                    </div>
+                    <div style="padding-top: 10px;" class="d-flex">
+                        <div>
+
+                            <button type="submit" class="btn btn-dark">Salvar</button>
+                        </div>
+                        <div>
+                            <a href="{% url 'listar_usuarios' %}" style="color: #292929; padding-left: 240px;"
+                                class=" nav-link rounded-0" data-bs-toggle="tooltip" data-bs-placement="right"
+                                aria-label="Orders" data-bs-original-title="Orders">
+                                <svg class="bi pe-none" width="40" height="40" role="img" aria-label="Orders">
+                                    <use xlink:href="#table"></use>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </main>
+        </div>
+    </div>
+
+
+    </body>
+    {% endif %}
+    {% endblock %}

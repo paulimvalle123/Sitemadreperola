@@ -1,0 +1,58 @@
+{% extends 'sidebar.html' %}
+{% block conteudo %}
+{% load static %}
+
+
+
+
+<div style="padding: 150px;">
+
+    <div class="card text-bg-light" style="padding-bottom: 10px; width: 450px; border-color: #f8f9fa; ">
+
+        <main class=" form-signin m-auto" style="width: 350px; align-items: center; padding-top: 5px; ">
+
+            <img class="mb-4" src='{% static "madre2.png" %}' alt="" width="250" height="100">
+
+            {% if user.is_authenticated %}
+            <p>Seja Bem Vindo, {{ user.first_name }}</p>
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <input class="btn btn-dark w-100 py-2" type="submit" value="Sair">
+            </form>
+            {% else %}
+            <form method="POST" action="{% url 'fazer_login' %}">
+                {% csrf_token %}
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="usuario" name="usuario">
+                    <label for="nome">Usuário</label>
+                </div>
+                <div style="padding-bottom: 10px;" class="form-floating">
+                    <input type="password" class="form-control" id="senha" name="senha">
+                    <label for="senha">Senha</label>
+                </div>
+
+
+                <button class="btn btn-dark w-100 py-2" type="submit">Entrar</button>
+                <p class="mt-5 mb-3 text-body-secondary">&copy; </p>
+
+            </form>
+            {% endif %}
+
+        </main>
+        <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+            crossorigin="anonymous"></script>
+
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                {% endfor %}
+        </ul>
+        {% endif %}
+
+    </div>
+</div>
+</div>
+{% endblock %}

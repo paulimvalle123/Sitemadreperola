@@ -1,0 +1,63 @@
+{% extends 'sidebar.html' %}
+{% block conteudo %}
+
+{% if user.username == 'admin' %}
+<div style="padding-left: 00px; padding-top: 50px;">
+
+
+    <div class="card text-bg-light" style="width: 950px; padding-bottom: 10px;  border-color: #f8f9fa; ">
+        <h2 style="text-align: center;">Lista de Usuários</h2>
+        <form method="post" action="{% url 'limpar_usuarios' %}">
+            {% csrf_token %}
+
+            <div class="container"
+                        style=" border: 0px solid #f8f9fa;  max-height: 450px; overflow-y: auto;">
+
+                <table style="padding-top: 0px; padding-bottom: 0px; width: auto; " class="table table-bordered table-striped -mb0">
+
+                    <thead>
+                        <tr>
+                            <th style="padding-top: 0px; padding-bottom: 0px; width: 20px;" >Selecionar</th>
+                            <th style="padding-top: 0px; padding-bottom: 0px; width: 200px;" >Nome</th>
+                            <th style="padding-top: 0px; padding-bottom: 0px; width: 100px;">Usuário</th>                            
+                            <th style="padding-top: 0px; padding-bottom: 0px; width: 200px;">Email</th>                            
+                            <th style="padding-top: 0px; padding-bottom: 0px; width: 400px;">Dados</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for usuario in usuarios %}
+                        {% if usuario.username == 'admin' %}
+                        <tr>
+                            
+                            <td style="padding-top: 0px; padding-bottom: 0px; width: 20px;"></td>
+                            <td style="padding-top: 0px; padding-bottom: 0px; width: 20px;">{{ usuario.first_name }}</td>
+                            <td style="padding-top: 0px; padding-bottom: 0px; width: 20px;">{{ usuario.username }}</td>
+                            <td style="padding-top: 0px; padding-bottom: 0px; width: 300px;">{{ usuario.email }}</td>                            
+                            <td style="padding-top: 0px; padding-bottom: 0px; width: 300px;">{{ usuario.last_name }}</td>
+                            
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                        {% for usuario in usuarios %}
+                        {% if usuario.username != 'admin' %}
+                        <tr>
+                            <td style="padding-top: 0px; padding-bottom: 0px; width: 20px;"><input type="checkbox" name="selecionar" value="{{ usuario.id }}"></td>
+                            <td style="padding-top: 0px; padding-bottom: 0px; width: 20px;">{{ usuario.first_name }}</td>
+                            <td style="padding-top: 0px; padding-bottom: 0px; width: 20px;">{{ usuario.username }}</td>
+                            <td style="padding-top: 0px; padding-bottom: 0px; width: 300px;">{{ usuario.email }}</td>                            
+                            <td style="padding-top: 0px; padding-bottom: 0px; width: 300px;">{{ usuario.last_name }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                    
+                </table>
+            </div>
+            <div style="padding-top: 10px; padding-left: 10px;">
+                <button class=" btn btn-dark" type="submit">Excluir Usuários Selecionados</button>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+    {% endblock %}
+

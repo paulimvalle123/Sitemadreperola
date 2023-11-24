@@ -1,0 +1,65 @@
+{% extends 'sidebar.html' %}
+
+{% block conteudo %}
+{% if user.username == 'admin' %}
+  <div style="padding: 150px;">
+    <div class="card text-bg-light" style="padding-bottom: 10px; width: 450px; border-color: #f8f9fa; ">
+      <h2 style="text-align: center;">Cadastro de Desconto</h2>
+      <main class=" form-signin m-auto" style="width: 350px; align-items: center; padding-top: 5px; ">
+        <form method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="{{ form.usuario.id_for_label }}">Usuário:</label>
+            <select class="form-control" id="{{ form.usuario.id_for_label }}" name="{{ form.usuario.html_name }}">
+              {% for value, label in form.usuario.field.choices %}
+              <option value="{{ value }}" {% if form.usuario.value == value %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+            <span class="error">{{ form.usuario.errors }}</span>
+          </div>
+          
+          <div class="form-group">
+            <label for="{{ form.data_inicial.id_for_label }}">Data Inicial:</label>
+            <input type="date" class="form-control" id="{{ form.data_inicial.id_for_label }}"
+              name="{{ form.data_inicial.html_name }}" value="{{ form.data_inicial.value|default_if_none:'' }}">
+            <span class="error">{{ form.data_inicial.errors }}</span>
+          </div>
+          <div class="form-group">
+            <label for="{{ form.data_final.id_for_label }}">Data Final:</label>
+            <input type="date" class="form-control" id="{{ form.data_final.id_for_label }}"
+              name="{{ form.data_final.html_name }}" value="{{ form.data_final.value|default_if_none:'' }}">
+            <span class="error">{{ form.data_final.errors }}</span>
+          </div>
+          <div class="form-group">
+            <label for="{{ form.valor.id_for_label }}">Valor:</label>
+            <input type="text" class="form-control" id="{{ form.valor.id_for_label }}" name="{{ form.valor.html_name }}"
+              value="{{ form.valor.value|default_if_none:'' }}" placeholder="Digite o valor">
+            <span class="error">{{ form.valor.errors }}</span>
+          </div>
+          <div class="form-group">
+            <label for="{{ form.observacao.id_for_label }}">Observação:</label>
+            <input type="text" class="form-control" id="{{ form.observacao.id_for_label }}"
+              name="{{ form.observacao.html_name }}" value="{{ form.observacao.value|default_if_none:'' }}"
+              placeholder="Digite a observação">
+            <span class="error">{{ form.observacao.errors }}</span>
+          </div>
+          <div style="padding-top: 10px;" class="d-flex ">
+            <div>
+              <button type="submit" class="btn btn-dark">Salvar</button>
+            </div>
+            <div>
+              <a href="{% url 'listar_descontos' %}" style="color: #292929; padding-left: 240px;"
+                class=" nav-link rounded-0" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Orders"
+                data-bs-original-title="Orders">
+                <svg class="bi pe-none" width="40" height="40" role="img" aria-label="Orders">
+                  <use xlink:href="#table"></use>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </form>
+      </main>
+    </div>
+  {% endif %}
+  {% endblock %}
+

@@ -1,0 +1,90 @@
+{% extends 'sidebar.html' %}
+
+{% block filtro %}
+{% if user.username == 'admin' %}
+<form method="post" class="d-flex justify-content-between">
+    {% csrf_token %}
+
+
+    <div class="form-group" style="padding-left: 30px; padding-right: 30px;   ">
+        <label for="{{ form.data_inicial.id_for_label }}">Data Inicial:</label>
+        <input type="date" class="form-control" id="{{ form.data_inicial.id_for_label }}" name="data_inicial"
+            value="{{ form.data_inicial.value|default_if_none:'' }}">
+        <span class="error">{{ form.data_inicial.errors }}</span>
+    </div>
+
+    <div class="form-group" style="padding-right: 30px; ">
+        <label for="{{ form.data_final.id_for_label }}">Data Final:</label>
+        <input type="date" class="form-control" id="{{ form.data_final.id_for_label }}" name="data_final"
+            value="{{ form.data_final.value|default_if_none:'' }}">
+        <span class="error">{{ form.data_final.errors }}</span>
+    </div>
+
+    <button style=" width: 100px; height: 40px;" class=" btn btn-light" type="submit">Filtrar</button>
+</form>
+{% endif %}
+{% endblock %}
+
+
+
+{% block conteudo %}
+
+<div class="card text-bg-light" style="width: 850x; height: auto; max-height: 800px; padding-bottom: 15px;">
+    <h2 style="width: 850px; text-align: center;">Relatório Consolidado</h2>
+    
+    <div class="container"
+        style="padding-left: 0px; padding-right:0px; border: 1px solid #f8f9fa; width: 830px; max-height: 800px; overflow-y: auto; padding-top: 10px;">
+        <div style="width: 800px;" class="container">
+
+            <table class="table table-bordered table-striped mb-0" style=" width: 150px; padding: 0px;">
+                <thead>
+                    <tr>
+                        <th class="col-md-10 text-left" style=" width: 300px; white-space: nowrap;">
+                            PERÍODO: {{ data_inicial|date:"d/m/Y" }} - {{ data_final|date:"d/m/Y" }}
+                        </th>
+                       
+                    </tr>
+                </thead>
+            </table>
+
+
+
+            <table class="table table-bordered table-striped mb-0">
+                <!-- Cabeçalho da tabela -->
+
+                <thead>
+                    <tr>
+                        <th style="width: 200px; padding: 0cm;" class="text-center">
+                            NOME
+                        </th>
+                        <th style="width: 200px; padding: 0cm;" class="text-center">TOTAL BRUTO</th>
+                        <th style="width: 200px; padding: 0cm;" class="text-center">
+                            DESCONTOS
+                        </th>
+                        <th style="width: 200px; padding: 0cm;" class="text-center">VALOR A PAGAR</th>
+                    </tr>
+                </thead>
+                <!-- Corpo da tabela -->
+                <tbody>
+                    {% for usuario, total_da_geral, descontos, da_receber in produtos_vendidos %}
+
+
+                    <tr>
+                        <td style="padding: 0cm; " class="text-center">{{ usuario.first_name }}</td>
+                        <td style="padding: 0cm;" class="text-center">R${{ total_da_geral }}</td>
+                        <td style="padding: 0cm;" class="text-center">R${{ descontos }}</td>
+                        <td style="padding: 0cm;" class="text-center">R${{ da_receber }}</td>
+                    </tr>
+
+                    {% endfor %}
+
+
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

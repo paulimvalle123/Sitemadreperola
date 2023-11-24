@@ -1,0 +1,55 @@
+{% extends 'sidebar.html' %}
+
+{% block conteudo %}
+{% if user.username == 'admin' %}
+<div style="padding-left: 150px; padding-top: 50px;">
+
+
+    <div class="card text-bg-light" style="width: 700px; padding-bottom: 10px;  border-color: #f8f9fa; ">
+        <h2 style="text-align: center;">Lista de Produtos</h2>
+        <form method="post" action="{% url 'limpar_produtos' %}">
+            {% csrf_token %}
+
+            <div class="container" style=" border: 0px solid #f8f9fa;  max-height: 650px; overflow-y: auto;">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> </th>
+                            <th>Nome do Produto</th>
+                            <th>SKU</th>
+                            <th>DA</th>
+                            <th>AUTOR</th>
+                            <th>MODELO</th>
+                            <th>AÇÃO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for produto in produtos %}
+                        <tr>
+                            <td><input type="checkbox" name="selecionar" value="{{ produto.id }}"></td>
+                            <td>{{ produto.nome }}</td>
+                            <td>{{ produto.sku }}</td>
+                            <td>{{ produto.da }}%</td>
+                            <td>{{ produto.usuario.first_name }}</td>
+                            <td>{{ produto.classe }}</td>
+                            <td><a href="{% url 'editar_produto' produto.id %}" class="py-0 btn btn-dark">Editar</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3">Nenhum produto encontrado.</td>
+                        </tr>
+                        {% endfor %}
+
+
+                    </tbody>
+                </table>
+            </div>
+            <div style="padding-left: 10px;">
+                <button class="btn btn-dark" type="submit">Excluir Produtos Selecionados</button>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+
+    {% endblock %}

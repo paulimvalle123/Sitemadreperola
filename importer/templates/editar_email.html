@@ -1,0 +1,47 @@
+{% extends 'sidebar.html' %}
+
+{% block conteudo %}
+{% if user.username == 'admin' %}
+
+<div style="padding-top: 150px; padding-left: 0px;">
+    <div class="card text-bg-light" style="padding-bottom: 30px; width: 900px; border-color: #f8f9fa; ">
+        <h2 style="text-align: center;">Editar Email</h2>
+        <main class="form-signin m-auto" style="width: 800px; align-items: center; padding-top: 5px; ">
+            <form method="post">
+                {% csrf_token %}
+
+
+                <div style="padding-bottom: 30px;" class="form-group">
+                    <label for="{{ form.subject.id_for_label }}">Assunto:</label>
+                    <input type="text" class="form-control" id="{{ form.subject.id_for_label }}"
+                        name="{{ form.subject.html_name }}" value="{{ form.subject.value|default_if_none:'' }}"
+                        placeholder="Assunto">
+                    <span class="error">{{ form.subject.errors }}</span>
+                </div>
+                <div style="padding-bottom: 30px;" class="form-group">
+                    <label for="{{ form.message.id_for_label }}">Mensagem:</label>
+                    <textarea style="height: 200px;" class="form-control" id="{{ form.message.id_for_label }}"
+                              name="{{ form.message.html_name }}" placeholder="Mensagem">{{ form.message.value|default_if_none:'' }}</textarea>
+            
+                    <span class="error">{{ form.message.errors }}</span>
+                </div>
+               
+     
+    
+    <div style="padding-top: 10px;" class="d-flex ">
+        <div style="padding-left: 10px;">
+            <button type="submit" class="btn btn-dark">Salvar </button>
+        </div>
+        <div style="padding-left: 585px;">
+            <a href="{% url 'envia_email' %}" class="btn btn-dark" style=" width: 125px; margin-top: 0px;">Enviar Email</a>
+        </div>
+
+    </div>
+    </form>
+    </main>
+</div>
+</div>
+
+
+{% endif %}
+{% endblock %}
